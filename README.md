@@ -1,57 +1,28 @@
 # Project Name
 
-(short, 1-3 sentenced, description of the project)
+This example demonstrates how to take an ONNX file that was exported from the Cognitive Services Custom Vision service, and use it in a UWP application. Specifically, this example demonstrates how to use the camera on a Windows 10 device as the image source for the model.
 
 ## Features
 
-This project framework provides the following features:
-
-* Feature 1
-* Feature 2
-* ...
+* Displays a preview of what the camera sees.
+* Displays the tags and score returned from the model.
 
 ## Getting Started
 
 ### Prerequisites
 
-(ideally very short, if any)
-
-- OS
-- Library version
-- ...
-
-### Installation
-
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
+- Windows 10 device with a camera
+- [Windows 10 SDK](https://developer.microsoft.com/windows/downloads/windows-10-sdk) (Build 17110 or higher)
+- [Visual Studio](https://developer.microsoft.com/windows/downloads)
 
 ### Quickstart
 (Add steps to get up and running quickly)
 
-1. git clone [repository clone url]
-2. cd [respository name]
-3. ...
+1. `git clone https://github.com/Azure-Samples/Custom-Vision-ONNX-UWP`
+2. Open the `VisionApp.sln` file using Visual Studio.
+3. Use F5 to build and run the application.
+4. Point the camera at a dog or cat (or a picture of one). The score below the preview shows whether the model thinks that a dog or cat is in the scene. Values closer to 1.0 mean that the model is confident that the scene contains the object. For example, Dog - 0.99. 
 
+    Occasionally you will see a score that contains the letter E, for example 1.7E-10. This can be confusing, as it looks like a number close to 1. The E notation represents the numbers in front of the preceding value. In the case of 1.7E-10, this equals 0.0000000017. Which means that the model thinks that the image probably isn't looking at the object.
 
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
-
-## Resources
-
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+    In a production application, you wouldn't show the raw numbers, but would probably convert to a percentage or a simple yes/no value.
