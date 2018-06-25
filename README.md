@@ -1,3 +1,9 @@
+---
+services: cognitive-services
+platforms: dotnet
+author: blackmist
+---
+
 # Use an ONNX file exported from the Custom Vision Service with Windows ML
 
 This example demonstrates how to take an ONNX file that was exported from the Cognitive Services Custom Vision service, and use it in a UWP application. Specifically, this example demonstrates how to use the camera on a Windows 10 device as the image source for the model.
