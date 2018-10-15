@@ -14,6 +14,7 @@ using System.Threading;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace VisionApp
 {
@@ -80,12 +81,21 @@ namespace VisionApp
         /// <returns></returns>
         private async Task LoadModelAsync()
         {
-            // Load the .onnx file
-            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/cat-or-dog.onnx"));
-            // Create the model from the file
-            // IMPORTANT: Change `Model.CreateModel` to match the class and methods in the
-            //   .cs file generated from the ONNX model
-            this.myVisionModel = await Model.CreateModel(file);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => StatusBlock.Text=$"Loading model");
+            try
+            {
+                // Load the .onnx file
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/cat-or-dog.onnx"));
+                // Create the model from the file
+                // IMPORTANT: Change `Model.CreateModel` to match the class and methods in the
+                //   .cs file generated from the ONNX model
+                this.myVisionModel = await Model.CreateModel(file);
+            }
+            catch (Exception ex)
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => StatusBlock.Text = $"Error: {ex.Message}");
+            }
+            
         }
 
         /// <summary>

@@ -106,6 +106,9 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\cat-or-dog.onnx" />
+    <Content Include="cat-or-dog.onnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="VisionApp_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -130,7 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.1.4</Version>
+      <Version>6.1.9</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
