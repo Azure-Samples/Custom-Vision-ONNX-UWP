@@ -1,8 +1,8 @@
----
-services: cognitive-services
-platforms: dotnet
-author: blackmist
----
+# IMPORTANT
+
+This example is currently broken with the most recent version of Windows 10. Until I figure out what is wrong, I recommend that you instead look at [https://github.com/Azure-Samples/cognitive-services-onnx12-customvision-sample/](https://github.com/Azure-Samples/cognitive-services-onnx12-customvision-sample/).
+
+
 
 # Use an ONNX file exported from the Custom Vision Service with Windows ML
 
