@@ -14,6 +14,8 @@ using System.Threading;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
 using Windows.Storage;
+using Windows.Storage.Streams;
+using Windows.AI.MachineLearning;
 
 namespace VisionApp
 {
@@ -27,11 +29,10 @@ namespace VisionApp
         bool isPreviewing;
         DisplayRequest displayRequest = new DisplayRequest();
 
-        // Classes generated from the ONNX model
-        // IMPORTANT: Change to the class names to match the ones defined in the
-        //   .cs file generated from your ONNX model
-        ModelInput inputData;
-        Model myVisionModel;
+        // Model
+        private ONNXModel model = null;
+        // File name of the ONNX model. This must be in the Assets folder for the project
+        private string modelFileName = "cat-or-dog.onnx";
 
         // Frame reader for extracting frames from the video
         MediaFrameReader frameReader;
@@ -80,12 +81,11 @@ namespace VisionApp
         /// <returns></returns>
         private async Task LoadModelAsync()
         {
-            // Load the .onnx file
-            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/cat-or-dog.onnx"));
-            // Create the model from the file
-            // IMPORTANT: Change `Model.CreateModel` to match the class and methods in the
-            //   .cs file generated from the ONNX model
-            this.myVisionModel = await Model.CreateModel(file);
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/{modelFileName}"));
+                // Create the model from the file
+                // IMPORTANT: Change `Model.CreateModel` to match the class and methods in the
+                //   .cs file generated from the ONNX model
+                model = await ONNXModel.CreateONNXModel(file);
         }
 
         /// <summary>
@@ -123,9 +123,10 @@ namespace VisionApp
                         if (videoFrame != null)
                         {
                             // If there is a frame, set it as input to the model
-                            this.inputData.data = videoFrame;
+                            ONNXModelInput input = new ONNXModelInput();
+                            input.data = videoFrame;
                             // Evaluate the input data
-                            var evalOutput = await this.myVisionModel.EvaluateAsync(this.inputData);
+                            var evalOutput = await model.EvaluateAsync(input);
                             // Do something with the model output
                             await this.ProcessOutputAsync(evalOutput);
                         }
@@ -143,10 +144,15 @@ namespace VisionApp
         /// </summary>
         /// <param name="evalOutput"></param>
         /// <returns></returns>
-        async Task ProcessOutputAsync(ModelOutput evalOutput)
+        async Task ProcessOutputAsync(ONNXModelOutput evalOutput)
         {
-            //Get the tags and score to string and then display
-            string score = string.Join("   ", evalOutput.loss);
+            // Get the label and loss from the output
+            string label = evalOutput.classLabel.GetAsVectorView()[0];
+            string loss = (evalOutput.loss[0][label] * 100.0f).ToString("#0.00");
+            // Format the output string
+            string score = $"{label} - {loss}";
+
+            // Display the score
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 () =>
                 {
@@ -283,8 +289,6 @@ namespace VisionApp
         {
             this.InitializeComponent();
 
-            // Initialize the input object
-            this.inputData = new ModelInput();
             // Event handlers
             Application.Current.Suspending += ApplicationSuspending;
             this.Loaded += OnLoaded;

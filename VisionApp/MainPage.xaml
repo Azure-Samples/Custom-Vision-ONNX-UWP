@@ -22,6 +22,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <!--displays the score from the model-->
                 <TextBlock Text="Score - "><Run Text="{x:Bind Score,Mode=OneWay}"/></TextBlock>
+                <TextBlock x:Name="StatusBlock" TextWrapping="Wrap"/>
             </StackPanel>
         </StackPanel>
     </Grid>
