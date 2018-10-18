@@ -1,12 +1,15 @@
----
-services: cognitive-services
-platforms: dotnet
-author: blackmist
----
+# IMPORTANT
+
+This example is currently broken with the most recent version of Windows 10. Until I figure out what is wrong, I recommend that you instead look at [https://github.com/Azure-Samples/cognitive-services-onnx12-customvision-sample/](https://github.com/Azure-Samples/cognitive-services-onnx12-customvision-sample/).
+
+
 
 # Use an ONNX file exported from the Custom Vision Service with Windows ML
 
 This example demonstrates how to take an ONNX file that was exported from the Cognitive Services Custom Vision service, and use it in a UWP application. Specifically, this example demonstrates how to use the camera on a Windows 10 device as the image source for the model.
+
+__IMPORTANT__: This example does not work with the Windows 10 build 17738 or higher. If you are using build 17738 or higher, see [https://github.com/Azure-Samples/cognitive-services-onnx12-customvision-sample/](
+https://github.com/Azure-Samples/cognitive-services-onnx12-customvision-sample/)
 
 ## Features
 
